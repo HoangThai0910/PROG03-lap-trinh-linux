@@ -25,14 +25,6 @@ do
 		remote_host=`echo $line | cut -d '"' -f2 | cut -d "'" -f1 | cut -d '@' -f2`
 		is_password="true"
 	    fi
-	    if [[ `echo $line | grep -w "denied"` ]]
-	    then
-		echo -e " - Incorrect password \n" >> $file_log
-    	    fi
-	    if [[ `echo $line | grep "Last login"` || `echo $line | grep -w "Welcome"` ]]
-	    then
-		echo -e " - Correct password \n" >> $file_log
-	    fi
 		
 	    if [[ $is_password == "true" ]]
 	    then
